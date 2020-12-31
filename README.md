@@ -6,6 +6,10 @@
 
 The ultimate wrestling industry simulation.
 
+<p align="center">
+  <img src="/Documents/VGWL_0_1.gif">
+</p>
+
 ## Goals
 - Deep grappling simulation system
 - Comprehensive company economic simulations
