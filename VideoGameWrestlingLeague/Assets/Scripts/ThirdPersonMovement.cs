@@ -6,6 +6,7 @@ public class ThirdPersonMovement : MonoBehaviour
 {
     public CharacterController controller;
     public Transform target;
+    public Animator animator;
 
     public float speed = 6f;
 
@@ -19,7 +20,7 @@ public class ThirdPersonMovement : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
 
         gravity -= 9.81f * Time.deltaTime;
-        Vector3 direction = new Vector3(horizontal, gravity, vertical).normalized;
+        Vector3 direction = new Vector3(0, gravity, 0).normalized;
         Vector3 vectorToTarget = (target.position - transform.position).normalized;
 
         if (direction.magnitude >= 0.1f)
@@ -30,6 +31,16 @@ public class ThirdPersonMovement : MonoBehaviour
 
             controller.Move(direction * speed * Time.deltaTime);
         }
+
+        //var localVelocity = transform.InverseTransformDirection(controller.velocity);
+        //var projectedVelocity = Vector3.Project(localVelocity, transform.forward).normalized;
+        var projectedVelocity = new Vector3(horizontal, 0, vertical);
+        animator.SetFloat("ForwardVelocity", projectedVelocity.z);
+        animator.SetFloat("LateralVelocity", projectedVelocity.x);
+        animator.SetBool("SideStepping", Mathf.Abs(projectedVelocity.x) > Mathf.Abs(projectedVelocity.z));
+
+        // Debug.Log("ForwardVeloicty: " + animator.GetFloat("ForwardVelocity") + " LateralVelocity: " + animator.GetFloat("LateralVelocity") + " SideStepping: " + animator.GetBool("SideStepping"));
+        
 
         if (controller.isGrounded)
         {
